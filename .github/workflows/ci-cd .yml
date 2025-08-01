@@ -1,0 +1,30 @@
+name: Super-Linter & Vercel Deploy
+
+on:
+  push:
+    branches:
+      - ci-cd
+
+jobs:
+  lint:
+    name: Super-Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Super-Linter
+        uses: github/super-linter/slim@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+
+  deploy:
+    name: Deploy to Vercel
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Vercel Hook
+        run: curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}
