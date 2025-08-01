@@ -3,7 +3,7 @@ name: Super-Linter & Vercel Deploy
 on:
   push:
     branches:
-      - ci-cd
+      - ci-cd-branch
 
 jobs:
   lint:
